@@ -4,7 +4,6 @@
 **Owned & managed by:** Agele Jonathan · Yenagoa, Bayelsa State, Nigeria
 
 A full-stack web app: Node.js + Express backend, SQLite database, vanilla HTML/CSS/JS frontend.
-No build step — clone it, install, run.
 
 ---
 
@@ -15,7 +14,7 @@ No build step — clone it, install, run.
 | Artisan profiles | ✅ | `GET/POST /api/artisans` |
 | Search functionality | ✅ | `GET /api/artisans?trade=&area=&q=` |
 | Booking functionality | ✅ | `POST /api/bookings`, artisan confirm/decline/complete dashboard |
-| Deployment | ⚠️ Deploy-ready, not yet deployed to a live URL — see **Deploying** below |
+| Deployment | ⚠️ Deploy-ready, see **Deploying** below |
 
 ---
 
@@ -26,10 +25,10 @@ module, so there's no native compiler/build-tools step — `npm install` just wo
 machine). Check your version with `node -v`; if you're on an older Node, install the current LTS
 from nodejs.org first.
 
-```bash
+bash
 npm install
 npm start
-```
+
 
 Then open **http://localhost:3000**. You'll see a small experimental-feature warning about SQLite
 printed on startup — that's expected and harmless, Node just flags `node:sqlite` as experimental.
@@ -100,51 +99,11 @@ artisan-finder-app/
   .gitignore
 ```
 
----
 
-## Deploying
+**##Deploying**
 
 The app is a single Node process serving both the API and the static frontend, so it deploys
-anywhere Node apps run. It hasn't been deployed to a live URL yet — do this to get one:
-
-**Render.com (free tier, easiest)**
-1. Push this folder to a GitHub repo.
-2. On [render.com](https://render.com) → New → Web Service → connect the repo.
-3. Build command: `npm install`. Start command: `npm start`.
-4. Deploy. Render gives you a public `https://your-app.onrender.com` URL.
-
-**Railway.app** — same idea: connect the repo, it auto-detects Node, deploys, gives you a URL.
-
-**Note on the database:** the app writes to a local SQLite file (`db/artisan-finder.db`) via
-Node's built-in `node:sqlite` — no separate database server or native build step needed. This
-works fine for a demo/MVP, but most free hosting tiers use an *ephemeral* filesystem — the
-database resets on every redeploy (not on every restart, but whenever you push new code). For
-anything beyond a demo, swap in a hosted Postgres database (e.g. Render's free Postgres, Neon, or
-Supabase) — the brief explicitly allows PostgreSQL as an alternative, and only `db/database.js`
-and the SQL in `server.js` would need to change; the API and frontend stay the same.
-
-**Make sure your host uses Node 22.5+.** On Render/Railway you can pin this via the `engines`
-field already set in `package.json`, or an explicit Node version setting in the platform's
-dashboard.
-
----
-
-## Demo video
-
-Not included in this delivery — I can't record a screen walkthrough from here. A natural
-2–3 minute structure, if you record one:
-1. (0:00–0:30) Problem + goal, one line each.
-2. (0:30–1:15) Find an Artisan: search by trade/area, open a profile, hit Book, fill the form, submit.
-3. (1:15–2:15) Register a new artisan, then switch to Manage My Bookings with that phone number,
-   confirm the booking you just made, mark it completed.
-4. (2:15–2:45) Quick look at the code structure and the deployed URL.
-
----
-
-## What's deliberately out of scope for this MVP
-
-- Authentication/passwords (phone-number lookup stands in for login)
-- Ratings/reviews
-- Artisan verification (ID/NIN, guarantor)
-- Payments
-- SMS/WhatsApp automated notifications on booking status change
+anywhere Node apps run.
+The app has been temporarily deployed to render for reviewing purposes.
+The app can be reviewed via the link below:
+https://artisan-finder-app-48u8.onrender.com/
