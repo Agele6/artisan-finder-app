@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Artisan Finder — Yenagoa</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="top">
+  <div class="top-row">
+    <div class="brand">
+      <div class="brand-mark">AF</div>
+      <div class="brand-text">
+        <div class="name">Artisan Finder</div>
+        <div class="loc">Yenagoa · Bayelsa State</div>
+      </div>
+    </div>
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="find">Find an Artisan</button>
+      <button class="tab-btn" data-tab="register">Register</button>
+      <button class="tab-btn" data-tab="manage">Manage My Bookings</button>
+    </div>
+  </div>
+
+  <div class="hero" id="heroFind">
+    <h1>Skilled hands, close to home.</h1>
+    <p>Every electrician, welder, tailor and mechanic listed here works within Yenagoa. Search, then book directly — no middleman.</p>
+    <div class="stat-line"><b id="statCount">–</b> artisans listed across <b id="statTrades">–</b> trades</div>
+    <div class="search-box">
+      <input type="text" id="searchText" placeholder="Search by name or trade, e.g. 'welder'" />
+      <select id="searchArea"><option value="">Any area</option></select>
+      <select id="searchTrade"><option value="">Any trade</option></select>
+      <button id="searchBtn">Search</button>
+    </div>
+  </div>
+</header>
+
+<div class="pattern"></div>
+
+<main>
+
+  <!-- ---------- FIND VIEW ---------- -->
+  <div class="view" id="view-find">
+    <p class="section-label">Browse by trade</p>
+    <div class="cat-grid" id="catGrid"></div>
+
+    <div class="results-head">
+      <h2 id="resultsTitle">All artisans</h2>
+      <button class="clear-filters" id="clearFiltersBtn" style="display:none;">Clear filters</button>
+    </div>
+    <div class="grid" id="resultsGrid">
+      <div class="loading-row">Loading directory…</div>
+    </div>
+  </div>
+
+  <!-- ---------- REGISTER VIEW ---------- -->
+  <div class="view" id="view-register" style="display:none;">
+    <div class="form-wrap">
+      <div class="form-card">
+        <h2>List your trade</h2>
+        <p class="sub">Fill this in once — customers in Yenagoa will be able to find and book you directly.</p>
+        <form id="registerForm">
+          <div class="field">
+            <label>Full name</label>
+            <input type="text" id="fName" required placeholder="e.g. Preye Odum" />
+          </div>
+          <div class="row2">
+            <div class="field">
+              <label>Trade</label>
+              <select id="fTrade" required><option value="">Select a trade</option></select>
+            </div>
+            <div class="field">
+              <label>Area in Yenagoa</label>
+              <select id="fArea" required><option value="">Select an area</option></select>
+            </div>
+          </div>
+          <div class="row2">
+            <div class="field">
+              <label>Phone number <span class="hint">(also your login for bookings)</span></label>
+              <input type="tel" id="fPhone" required placeholder="080X XXX XXXX" />
+            </div>
+            <div class="field">
+              <label>WhatsApp number <span class="hint">(if different)</span></label>
+              <input type="tel" id="fWhatsapp" placeholder="Same as phone" />
+            </div>
+          </div>
+          <div class="field">
+            <label>Years of experience</label>
+            <input type="number" id="fExp" min="0" max="60" placeholder="e.g. 5" />
+          </div>
+          <div class="field">
+            <label>Short description <span class="hint">(what you do, what you specialise in)</span></label>
+            <textarea id="fBio" maxlength="160" placeholder="e.g. Home & office wiring, fault repairs, prepaid meter installation."></textarea>
+          </div>
+          <button type="submit" class="submit-btn">Add me to the directory</button>
+          <div class="form-msg" id="formMsg"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ---------- MANAGE BOOKINGS VIEW (artisan dashboard) ---------- -->
+  <div class="view" id="view-manage" style="display:none;">
+    <div class="form-wrap">
+      <div class="form-card">
+        <h2>Manage my bookings</h2>
+        <p class="sub">Enter the phone number you registered with to see and respond to booking requests.</p>
+        <div class="row2" style="align-items:end;">
+          <div class="field" style="margin-bottom:0;">
+            <label>Your registered phone number</label>
+            <input type="tel" id="lookupPhone" placeholder="080X XXX XXXX" />
+          </div>
+          <button id="lookupBtn" class="submit-btn" style="margin-top:0;">Look up bookings</button>
+        </div>
+        <div class="form-msg" id="lookupMsg"></div>
+      </div>
+    </div>
+    <div id="bookingsList" style="margin-top:20px;"></div>
+  </div>
+
+</main>
+
+<!-- ---------- BOOKING MODAL ---------- -->
+<div class="modal-overlay" id="bookingModal">
+  <div class="modal-card">
+    <button class="modal-close" id="closeModalBtn">&times;</button>
+    <h3>Book <span id="modalArtisanName">this artisan</span></h3>
+    <p class="sub" id="modalArtisanTrade"></p>
+    <form id="bookingForm">
+      <input type="hidden" id="bArtisanId" />
+      <div class="field">
+        <label>Your name</label>
+        <input type="text" id="bName" required placeholder="e.g. Angela Briggs" />
+      </div>
+      <div class="field">
+        <label>Your phone number</label>
+        <input type="tel" id="bPhone" required placeholder="080X XXX XXXX" />
+      </div>
+      <div class="field">
+        <label>Preferred date</label>
+        <input type="date" id="bDate" required />
+      </div>
+      <div class="field">
+        <label>What do you need done? <span class="hint">(optional)</span></label>
+        <textarea id="bJob" maxlength="200" placeholder="e.g. Fix a tripping breaker in the sitting room"></textarea>
+      </div>
+      <button type="submit" class="submit-btn">Send booking request</button>
+      <div class="form-msg" id="bookingMsg"></div>
+    </form>
+  </div>
+</div>
+
+<footer>
+  <b>Artisan Finder</b> — connecting Yenagoa's tradespeople with the people who need them.<br/>
+  Owned &amp; managed by Agele Jonathan · Yenagoa, Bayelsa State, Nigeria
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
